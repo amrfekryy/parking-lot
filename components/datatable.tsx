@@ -19,12 +19,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
+import { Vehicle } from "@/app/parking-lot/[spotsCount]/vehicles-table";
 
-export function DataTable<TData>({
+export function DataTable({
   table,
   SearchProps,
 }: {
-  table: ITable<TData>;
+  table: ITable<Vehicle>;
   SearchProps?: InputProps;
 }) {
   const noOfColumns = table
@@ -87,6 +89,11 @@ export function DataTable<TData>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className={cn({
+                    "bg-green-50 hover:bg-green-100":
+                      !row.original?.plateNumber,
+                    "bg-red-50 hover:bg-red-100": row.original?.plateNumber,
+                  })}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="text-center">
@@ -109,10 +116,6 @@ export function DataTable<TData>({
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        {/* <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div> */}
         <div className="space-x-2">
           <Button
             variant="outline"
