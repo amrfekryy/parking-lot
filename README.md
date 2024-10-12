@@ -1,4 +1,4 @@
-Hi there, this project is deployed to Vercel. Click [here](https://parking-okgkcegv0-amr-fekrys-projects.vercel.app/parking-lot) to view.
+Hi there, this project is deployed to Vercel. Click [here](https://parking-lot-peach.vercel.app/) to view.
 
 ### How to run the project locally
 
