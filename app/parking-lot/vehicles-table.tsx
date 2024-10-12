@@ -109,105 +109,13 @@ const data: Vehicle[] = [
   },
 ];
 
-export const columns: ColumnDef<Vehicle>[] = [
-  //   {
-  //     id: "select",
-  //     header: ({ table }) => (
-  //       <Checkbox
-  //         checked={
-  //           table.getIsAllPageRowsSelected() ||
-  //           (table.getIsSomePageRowsSelected() && "indeterminate")
-  //         }
-  //         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-  //         aria-label="Select all"
-  //       />
-  //     ),
-  //     cell: ({ row }) => (
-  //       <Checkbox
-  //         checked={row.getIsSelected()}
-  //         onCheckedChange={(value) => row.toggleSelected(!!value)}
-  //         aria-label="Select row"
-  //       />
-  //     ),
-  //     enableSorting: false,
-  //     enableHiding: false,
-  //   },
-  {
-    accessorKey: "parkingSlot",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Parking Slot
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div>{row.getValue("parkingSlot")}</div>,
-  },
-  {
-    accessorKey: "plateNumber",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Plate Number
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div>{row.getValue("plateNumber")}</div>,
-  },
-  {
-    accessorKey: "timer",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Timer
-          <CaretSortIcon className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div>{row.getValue("timer")}</div>,
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const vehicle = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <DotsHorizontalIcon className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Free Parking Slot</DropdownMenuItem>
-            <DropdownMenuItem>Reset Timer</DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(vehicle.plateNumber)}
-            >
-              Copy Plate Number
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
-
-export function VehiclesTable({ parkingSlots }: { parkingSlots: Vehicle[] }) {
+export function VehiclesTable({
+  parkingSlots,
+  removeVehicle,
+}: {
+  parkingSlots: Vehicle[];
+  removeVehicle: (vehicle: Vehicle) => void;
+}) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -215,6 +123,117 @@ export function VehiclesTable({ parkingSlots }: { parkingSlots: Vehicle[] }) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+
+  const columns: ColumnDef<Vehicle>[] = React.useMemo(
+    () => [
+      //   {
+      //     id: "select",
+      //     header: ({ table }) => (
+      //       <Checkbox
+      //         checked={
+      //           table.getIsAllPageRowsSelected() ||
+      //           (table.getIsSomePageRowsSelected() && "indeterminate")
+      //         }
+      //         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+      //         aria-label="Select all"
+      //       />
+      //     ),
+      //     cell: ({ row }) => (
+      //       <Checkbox
+      //         checked={row.getIsSelected()}
+      //         onCheckedChange={(value) => row.toggleSelected(!!value)}
+      //         aria-label="Select row"
+      //       />
+      //     ),
+      //     enableSorting: false,
+      //     enableHiding: false,
+      //   },
+      {
+        accessorKey: "parkingSlot",
+        header: ({ column }) => {
+          return (
+            <Button
+              variant="ghost"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === "asc")
+              }
+            >
+              Parking Slot
+              <CaretSortIcon className="ml-2 h-4 w-4" />
+            </Button>
+          );
+        },
+        cell: ({ row }) => <div>{row.getValue("parkingSlot")}</div>,
+      },
+      {
+        accessorKey: "plateNumber",
+        header: ({ column }) => {
+          return (
+            <Button
+              variant="ghost"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === "asc")
+              }
+            >
+              Plate Number
+              <CaretSortIcon className="ml-2 h-4 w-4" />
+            </Button>
+          );
+        },
+        cell: ({ row }) => <div>{row.getValue("plateNumber")}</div>,
+      },
+      {
+        accessorKey: "timer",
+        header: ({ column }) => {
+          return (
+            <Button
+              variant="ghost"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === "asc")
+              }
+            >
+              Timer
+              <CaretSortIcon className="ml-2 h-4 w-4" />
+            </Button>
+          );
+        },
+        cell: ({ row }) => <div>{row.getValue("timer")}</div>,
+      },
+      {
+        id: "actions",
+        enableHiding: false,
+        cell: ({ row }) => {
+          const vehicle = row.original;
+
+          return (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-8 w-8 p-0">
+                  <span className="sr-only">Open menu</span>
+                  <DotsHorizontalIcon className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuItem onClick={() => removeVehicle(row.original)}>
+                  Free Parking Slot
+                </DropdownMenuItem>
+                <DropdownMenuItem>Reset Timer</DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() =>
+                    navigator.clipboard.writeText(vehicle.plateNumber)
+                  }
+                >
+                  Copy Plate Number
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          );
+        },
+      },
+    ],
+    []
+  );
 
   const table = useReactTable({
     data: parkingSlots,

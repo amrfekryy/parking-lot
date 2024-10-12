@@ -24,6 +24,7 @@ export default function Page() {
   const parkVehicle = () => {
     // validation
     let slotIndex;
+    // user selected specific parking slot
     if (parkingSlot) {
       // check seleted parking slot already occupied
       const vehicle = parkingSlots.find(
@@ -34,7 +35,9 @@ export default function Page() {
         return;
       }
       slotIndex = Number(parkingSlot) - 1;
-    } else {
+    }
+    // auto select parking slot
+    else {
       // check parking slots are filled
       const emptySlotIndex = parkingSlots.findIndex((v) => !v.plateNumber);
       if (emptySlotIndex === -1) {
@@ -66,6 +69,19 @@ export default function Page() {
     setParkingSlot("");
   };
 
+  const removeVehicle = (vehicle: Vehicle) => {
+    const slotIndex = Number(vehicle.parkingSlot) - 1;
+    setParkingSlots((prev) => {
+      const updated = [...prev];
+      updated[slotIndex] = {
+        parkingSlot: vehicle.parkingSlot,
+        plateNumber: "",
+        timer: "",
+      };
+      return updated;
+    });
+  };
+
   return (
     <div className="px-5 md:px-20 pt-10 flex flex-col gap-10">
       <div className="flex gap-4">
@@ -87,7 +103,10 @@ export default function Page() {
           Park Vehcile
         </Button>
       </div>
-      <VehiclesTable parkingSlots={parkingSlots} />
+      <VehiclesTable
+        parkingSlots={parkingSlots}
+        removeVehicle={removeVehicle}
+      />
     </div>
   );
 }
