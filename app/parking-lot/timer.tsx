@@ -8,6 +8,12 @@ export const Timer = ({ iso }: { iso: string }) => {
   });
 
   useEffect(() => {
+    const initialDate = new Date(iso);
+    const now = new Date();
+    setTime(Math.floor((now.getTime() - initialDate.getTime()) / 1000));
+  }, [iso]);
+
+  useEffect(() => {
     const timer = setInterval(() => {
       setTime((prevTime) => prevTime + 1);
     }, 1000);

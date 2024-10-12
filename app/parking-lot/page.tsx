@@ -82,6 +82,18 @@ export default function Page() {
     });
   };
 
+  const resetTimer = (vehicle: Vehicle) => {
+    const slotIndex = Number(vehicle.parkingSlot) - 1;
+    setParkingSlots((prev) => {
+      const updated = [...prev];
+      updated[slotIndex] = {
+        ...vehicle,
+        parkedAt: new Date().toISOString(),
+      };
+      return updated;
+    });
+  };
+
   return (
     <div className="px-5 md:px-20 pt-10 flex flex-col gap-10">
       <div className="flex gap-4">
@@ -106,6 +118,7 @@ export default function Page() {
       <VehiclesTable
         parkingSlots={parkingSlots}
         removeVehicle={removeVehicle}
+        resetTimer={resetTimer}
       />
     </div>
   );

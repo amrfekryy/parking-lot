@@ -35,9 +35,11 @@ export interface Vehicle {
 export function VehiclesTable({
   parkingSlots,
   removeVehicle,
+  resetTimer,
 }: {
   parkingSlots: Vehicle[];
   removeVehicle: (vehicle: Vehicle) => void;
+  resetTimer: (vehicle: Vehicle) => void;
 }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -144,7 +146,9 @@ export function VehiclesTable({
                 <DropdownMenuItem onClick={() => removeVehicle(row.original)}>
                   Free Parking Slot
                 </DropdownMenuItem>
-                <DropdownMenuItem>Reset Timer</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => resetTimer(row.original)}>
+                  Reset Timer
+                </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() =>
                     navigator.clipboard.writeText(vehicle.plateNumber)
