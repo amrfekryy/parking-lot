@@ -118,10 +118,19 @@ export default function Page({
           <Input
             type="number"
             min={1}
-            max={20}
+            max={spotsCount}
             placeholder="Parking Spot (Optional)"
             value={parkingSpot}
-            onChange={(e) => setParkingSpot(e.target.value)}
+            onChange={(e) => {
+              const value = Number(e.target.value);
+              if (
+                e.target.value === "" ||
+                value > 0 ||
+                value <= Number(spotsCount)
+              ) {
+                setParkingSpot(e.target.value);
+              }
+            }}
           />
           <Button disabled={!plateNumber} onClick={parkVehicle}>
             Park Vehcile

@@ -28,11 +28,15 @@ export default function Page() {
       <div className="absolute top-[42%] left-1/2 transform -translate-x-1/2 -translate-y-[42%] flex gap-3">
         <Input
           type="number"
-          min={0}
+          min={1}
           max={1000}
           placeholder="How many spots do you have in your parking lot?"
           className="bg-white w-96"
-          onChange={(e) => setSpotsCount(e.target.value)}
+          onChange={(e) => {
+            const value = Number(e.target.value);
+            if (value <= 0) return;
+            setSpotsCount(e.target.value);
+          }}
           value={spotsCount}
           onKeyDown={handleKeyDown}
         />
