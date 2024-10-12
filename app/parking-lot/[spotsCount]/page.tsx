@@ -98,6 +98,12 @@ export default function Page({
     });
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      parkVehicle();
+    }
+  };
+
   return (
     <main className="min-h-screen w-screen bg-background container">
       <div className="px-5 md:px-20 pt-10 flex flex-col gap-10">
@@ -107,6 +113,7 @@ export default function Page({
             placeholder="Vehicle Plate Number"
             value={plateNumber}
             onChange={(e) => setPlateNumber(e.target.value.trim())}
+            onKeyDown={handleKeyDown}
           />
           <Input
             type="number"

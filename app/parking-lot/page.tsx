@@ -4,10 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 export default function Page() {
-  const [spotsCount, setspotsCount] = React.useState("");
+  const [spotsCount, setSpotsCount] = React.useState("");
+  const router = useRouter();
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      router.push(`/parking-lot/${spotsCount}`);
+    }
+  };
+
   return (
     <div className="min-h-screen w-screen relative">
       <Image
@@ -22,9 +31,10 @@ export default function Page() {
           min={0}
           max={1000}
           placeholder="How many spots do you have in your parking lot?"
-          className="bg-white w-96 "
-          onChange={(e) => setspotsCount(e.target.value)}
+          className="bg-white w-96"
+          onChange={(e) => setSpotsCount(e.target.value)}
           value={spotsCount}
+          onKeyDown={handleKeyDown}
         />
         <Link href={`/parking-lot/${spotsCount}`}>
           <Button>Go</Button>
