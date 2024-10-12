@@ -25,85 +25,85 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { InputProps } from "@/components/ui/input";
 
-interface Vehicle {
-  parkingLot: number;
+export interface Vehicle {
+  parkingSlot: number;
   plateNumber: string;
   timer: string;
 }
 
 const data: Vehicle[] = [
   {
-    parkingLot: 1,
+    parkingSlot: 1,
     plateNumber: "INV001",
     timer: "1:30",
   },
   {
-    parkingLot: 1,
+    parkingSlot: 1,
     plateNumber: "INV002",
     timer: "1:30",
   },
   {
-    parkingLot: 1,
+    parkingSlot: 1,
     plateNumber: "INV003",
     timer: "1:30",
   },
   {
-    parkingLot: 1,
+    parkingSlot: 1,
     plateNumber: "INV004",
     timer: "1:30",
   },
   {
-    parkingLot: 1,
+    parkingSlot: 1,
     plateNumber: "INV005",
     timer: "1:30",
   },
   {
-    parkingLot: 1,
+    parkingSlot: 1,
     plateNumber: "INV006",
     timer: "1:30",
   },
   {
-    parkingLot: 1,
+    parkingSlot: 1,
     plateNumber: "INV007",
     timer: "1:30",
   },
   {
-    parkingLot: 1,
+    parkingSlot: 1,
     plateNumber: "INV004",
     timer: "1:30",
   },
   {
-    parkingLot: 1,
+    parkingSlot: 1,
     plateNumber: "INV005",
     timer: "1:30",
   },
   {
-    parkingLot: 1,
+    parkingSlot: 1,
     plateNumber: "INV006",
     timer: "1:30",
   },
   {
-    parkingLot: 1,
+    parkingSlot: 1,
     plateNumber: "INV007",
     timer: "1:30",
   },
   {
-    parkingLot: 1,
+    parkingSlot: 1,
     plateNumber: "INV004",
     timer: "1:30",
   },
   {
-    parkingLot: 1,
+    parkingSlot: 1,
     plateNumber: "INV005",
     timer: "1:30",
   },
   {
-    parkingLot: 1,
+    parkingSlot: 1,
     plateNumber: "INV006",
     timer: "1:30",
   },
   {
-    parkingLot: 1,
+    parkingSlot: 1,
     plateNumber: "INV007",
     timer: "1:30",
   },
@@ -133,19 +133,19 @@ export const columns: ColumnDef<Vehicle>[] = [
   //     enableHiding: false,
   //   },
   {
-    accessorKey: "parkingLot",
+    accessorKey: "parkingSlot",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Parking Lot
+          Parking Slot
           <CaretSortIcon className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue("parkingLot")}</div>,
+    cell: ({ row }) => <div>{row.getValue("parkingSlot")}</div>,
   },
   {
     accessorKey: "plateNumber",
@@ -193,13 +193,13 @@ export const columns: ColumnDef<Vehicle>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem>Free Parking Slot</DropdownMenuItem>
+            <DropdownMenuItem>Reset Timer</DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(vehicle.plateNumber)}
             >
               Copy Plate Number
             </DropdownMenuItem>
-            <DropdownMenuItem>Free Parking Lot</DropdownMenuItem>
-            <DropdownMenuItem>Reset Timer</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -207,7 +207,7 @@ export const columns: ColumnDef<Vehicle>[] = [
   },
 ];
 
-export function VehiclesTable() {
+export function VehiclesTable({ parkingSlots }: { parkingSlots: Vehicle[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -217,7 +217,7 @@ export function VehiclesTable() {
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
-    data,
+    data: parkingSlots,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
