@@ -147,7 +147,7 @@ export function VehiclesTable({
         },
       },
     ],
-    []
+    [removeVehicle, resetTimer]
   );
 
   const table = useReactTable({
