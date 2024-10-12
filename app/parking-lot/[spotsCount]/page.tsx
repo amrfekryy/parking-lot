@@ -106,7 +106,7 @@ export default function Page({
             required
             placeholder="Vehicle Plate Number"
             value={plateNumber}
-            onChange={(e) => setPlateNumber(e.target.value)}
+            onChange={(e) => setPlateNumber(e.target.value.trim())}
           />
           <Input
             type="number"

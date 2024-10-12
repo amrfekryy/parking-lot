@@ -187,7 +187,7 @@ export function VehiclesTable({
   const SearchProps: InputProps = {
     value: (table.getColumn("plateNumber")?.getFilterValue() as string) ?? "",
     onChange: (event: React.ChangeEvent<HTMLInputElement>) =>
-      table.getColumn("plateNumber")?.setFilterValue(event.target.value),
+      table.getColumn("plateNumber")?.setFilterValue(event.target.value.trim()),
     className: "max-w-sm",
     placeholder: "Search By Plate Number",
   };
