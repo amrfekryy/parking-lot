@@ -24,90 +24,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { InputProps } from "@/components/ui/input";
+import { Timer } from "./timer";
 
 export interface Vehicle {
   parkingSlot: number;
   plateNumber: string;
-  timer: string;
+  parkedAt: string;
 }
-
-const data: Vehicle[] = [
-  {
-    parkingSlot: 1,
-    plateNumber: "INV001",
-    timer: "1:30",
-  },
-  {
-    parkingSlot: 1,
-    plateNumber: "INV002",
-    timer: "1:30",
-  },
-  {
-    parkingSlot: 1,
-    plateNumber: "INV003",
-    timer: "1:30",
-  },
-  {
-    parkingSlot: 1,
-    plateNumber: "INV004",
-    timer: "1:30",
-  },
-  {
-    parkingSlot: 1,
-    plateNumber: "INV005",
-    timer: "1:30",
-  },
-  {
-    parkingSlot: 1,
-    plateNumber: "INV006",
-    timer: "1:30",
-  },
-  {
-    parkingSlot: 1,
-    plateNumber: "INV007",
-    timer: "1:30",
-  },
-  {
-    parkingSlot: 1,
-    plateNumber: "INV004",
-    timer: "1:30",
-  },
-  {
-    parkingSlot: 1,
-    plateNumber: "INV005",
-    timer: "1:30",
-  },
-  {
-    parkingSlot: 1,
-    plateNumber: "INV006",
-    timer: "1:30",
-  },
-  {
-    parkingSlot: 1,
-    plateNumber: "INV007",
-    timer: "1:30",
-  },
-  {
-    parkingSlot: 1,
-    plateNumber: "INV004",
-    timer: "1:30",
-  },
-  {
-    parkingSlot: 1,
-    plateNumber: "INV005",
-    timer: "1:30",
-  },
-  {
-    parkingSlot: 1,
-    plateNumber: "INV006",
-    timer: "1:30",
-  },
-  {
-    parkingSlot: 1,
-    plateNumber: "INV007",
-    timer: "1:30",
-  },
-];
 
 export function VehiclesTable({
   parkingSlots,
@@ -183,7 +106,7 @@ export function VehiclesTable({
         cell: ({ row }) => <div>{row.getValue("plateNumber")}</div>,
       },
       {
-        accessorKey: "timer",
+        accessorKey: "parkedAt",
         header: ({ column }) => {
           return (
             <Button
@@ -192,12 +115,15 @@ export function VehiclesTable({
                 column.toggleSorting(column.getIsSorted() === "asc")
               }
             >
-              Timer
+              Duration
               <CaretSortIcon className="ml-2 h-4 w-4" />
             </Button>
           );
         },
-        cell: ({ row }) => <div>{row.getValue("timer")}</div>,
+        cell: ({ row }) => {
+          const parkedAt = row.getValue("parkedAt") as string;
+          return parkedAt && <Timer iso={parkedAt} />;
+        },
       },
       {
         id: "actions",

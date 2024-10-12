@@ -17,7 +17,7 @@ export default function Page() {
       .map((_, index) => ({
         parkingSlot: index + 1,
         plateNumber: "",
-        timer: "",
+        parkedAt: "",
       }))
   );
 
@@ -61,7 +61,7 @@ export default function Page() {
       updated[slotIndex] = {
         plateNumber,
         parkingSlot: slotIndex + 1,
-        timer: new Date().toISOString(),
+        parkedAt: new Date().toISOString(),
       };
       return updated;
     });
@@ -76,7 +76,7 @@ export default function Page() {
       updated[slotIndex] = {
         parkingSlot: vehicle.parkingSlot,
         plateNumber: "",
-        timer: "",
+        parkedAt: "",
       };
       return updated;
     });
