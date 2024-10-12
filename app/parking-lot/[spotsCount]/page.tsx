@@ -99,31 +99,33 @@ export default function Page({
   };
 
   return (
-    <div className="px-5 md:px-20 pt-10 flex flex-col gap-10">
-      <div className="flex gap-4">
-        <Input
-          required
-          placeholder="Vehicle Plate Number"
-          value={plateNumber}
-          onChange={(e) => setPlateNumber(e.target.value)}
+    <main className="min-h-screen w-screen bg-background container">
+      <div className="px-5 md:px-20 pt-10 flex flex-col gap-10">
+        <div className="flex gap-4">
+          <Input
+            required
+            placeholder="Vehicle Plate Number"
+            value={plateNumber}
+            onChange={(e) => setPlateNumber(e.target.value)}
+          />
+          <Input
+            type="number"
+            min={1}
+            max={20}
+            placeholder="Parking Spot (Optional)"
+            value={parkingSpot}
+            onChange={(e) => setParkingSpot(e.target.value)}
+          />
+          <Button disabled={!plateNumber} onClick={parkVehicle}>
+            Park Vehcile
+          </Button>
+        </div>
+        <VehiclesTable
+          parkingSpots={parkingSpots}
+          removeVehicle={removeVehicle}
+          resetTimer={resetTimer}
         />
-        <Input
-          type="number"
-          min={1}
-          max={20}
-          placeholder="Parking Spot (Optional)"
-          value={parkingSpot}
-          onChange={(e) => setParkingSpot(e.target.value)}
-        />
-        <Button disabled={!plateNumber} onClick={parkVehicle}>
-          Park Vehcile
-        </Button>
       </div>
-      <VehiclesTable
-        parkingSpots={parkingSpots}
-        removeVehicle={removeVehicle}
-        resetTimer={resetTimer}
-      />
-    </div>
+    </main>
   );
 }
