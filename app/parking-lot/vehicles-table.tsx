@@ -27,17 +27,17 @@ import { InputProps } from "@/components/ui/input";
 import { Timer } from "./timer";
 
 export interface Vehicle {
-  parkingSlot: number;
+  parkingSpot: number;
   plateNumber: string;
   parkedAt: string;
 }
 
 export function VehiclesTable({
-  parkingSlots,
+  parkingSpots,
   removeVehicle,
   resetTimer,
 }: {
-  parkingSlots: Vehicle[];
+  parkingSpots: Vehicle[];
   removeVehicle: (vehicle: Vehicle) => void;
   resetTimer: (vehicle: Vehicle) => void;
 }) {
@@ -74,7 +74,7 @@ export function VehiclesTable({
       //     enableHiding: false,
       //   },
       {
-        accessorKey: "parkingSlot",
+        accessorKey: "parkingSpot",
         header: ({ column }) => {
           return (
             <Button
@@ -83,12 +83,12 @@ export function VehiclesTable({
                 column.toggleSorting(column.getIsSorted() === "asc")
               }
             >
-              Parking Slot
+              Parking Spot
               <CaretSortIcon className="ml-2 h-4 w-4" />
             </Button>
           );
         },
-        cell: ({ row }) => <div>{row.getValue("parkingSlot")}</div>,
+        cell: ({ row }) => <div>{row.getValue("parkingSpot")}</div>,
       },
       {
         accessorKey: "plateNumber",
@@ -144,7 +144,7 @@ export function VehiclesTable({
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem onClick={() => removeVehicle(row.original)}>
-                  Free Parking Slot
+                  Free Parking Spot
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => resetTimer(row.original)}>
                   Reset Timer
@@ -166,7 +166,7 @@ export function VehiclesTable({
   );
 
   const table = useReactTable({
-    data: parkingSlots,
+    data: parkingSpots,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,

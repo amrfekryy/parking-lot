@@ -8,14 +8,14 @@ import { Vehicle, VehiclesTable } from "./vehicles-table";
 export default function Page() {
   // form
   const [plateNumber, setPlateNumber] = React.useState<string>("");
-  const [parkingSlot, setParkingSlot] = React.useState<string>("");
+  const [parkingSpot, setParkingSpot] = React.useState<string>("");
 
-  // slots state management
-  const [parkingSlots, setParkingSlots] = React.useState<Vehicle[]>(
+  // spots state management
+  const [parkingSpots, setParkingSpots] = React.useState<Vehicle[]>(
     Array(20)
       .fill(null)
       .map((_, index) => ({
-        parkingSlot: index + 1,
+        parkingSpot: index + 1,
         plateNumber: "",
         parkedAt: "",
       }))
@@ -23,31 +23,31 @@ export default function Page() {
 
   const parkVehicle = () => {
     // validation
-    let slotIndex;
-    // user selected specific parking slot
-    if (parkingSlot) {
-      // check seleted parking slot already occupied
-      const vehicle = parkingSlots.find(
-        (v) => v.parkingSlot === Number(parkingSlot)
+    let spotIndex;
+    // user selected specific parking spot
+    if (parkingSpot) {
+      // check seleted parking spot already occupied
+      const vehicle = parkingSpots.find(
+        (v) => v.parkingSpot === Number(parkingSpot)
       );
       if (!!vehicle?.plateNumber) {
-        alert("Parking slot already occupied!");
+        alert("Parking spot already occupied!");
         return;
       }
-      slotIndex = Number(parkingSlot) - 1;
+      spotIndex = Number(parkingSpot) - 1;
     }
-    // auto select parking slot
+    // auto select parking spot
     else {
-      // check parking slots are filled
-      const emptySlotIndex = parkingSlots.findIndex((v) => !v.plateNumber);
-      if (emptySlotIndex === -1) {
-        alert("There are no free parking slots available!");
+      // check parking spots are filled
+      const emptySpotIndex = parkingSpots.findIndex((v) => !v.plateNumber);
+      if (emptySpotIndex === -1) {
+        alert("There are no free parking spots available!");
         return;
       }
-      slotIndex = emptySlotIndex;
+      spotIndex = emptySpotIndex;
     }
     // check plate number already added
-    const plateNumberExists = parkingSlots.find(
+    const plateNumberExists = parkingSpots.find(
       (v) => v.plateNumber === plateNumber
     );
     if (plateNumberExists) {
@@ -56,25 +56,25 @@ export default function Page() {
     }
 
     // park vehicle
-    setParkingSlots((prev) => {
+    setParkingSpots((prev) => {
       const updated = [...prev];
-      updated[slotIndex] = {
+      updated[spotIndex] = {
         plateNumber,
-        parkingSlot: slotIndex + 1,
+        parkingSpot: spotIndex + 1,
         parkedAt: new Date().toISOString(),
       };
       return updated;
     });
     setPlateNumber("");
-    setParkingSlot("");
+    setParkingSpot("");
   };
 
   const removeVehicle = (vehicle: Vehicle) => {
-    const slotIndex = Number(vehicle.parkingSlot) - 1;
-    setParkingSlots((prev) => {
+    const spotIndex = Number(vehicle.parkingSpot) - 1;
+    setParkingSpots((prev) => {
       const updated = [...prev];
-      updated[slotIndex] = {
-        parkingSlot: vehicle.parkingSlot,
+      updated[spotIndex] = {
+        parkingSpot: vehicle.parkingSpot,
         plateNumber: "",
         parkedAt: "",
       };
@@ -83,10 +83,10 @@ export default function Page() {
   };
 
   const resetTimer = (vehicle: Vehicle) => {
-    const slotIndex = Number(vehicle.parkingSlot) - 1;
-    setParkingSlots((prev) => {
+    const spotIndex = Number(vehicle.parkingSpot) - 1;
+    setParkingSpots((prev) => {
       const updated = [...prev];
-      updated[slotIndex] = {
+      updated[spotIndex] = {
         ...vehicle,
         parkedAt: new Date().toISOString(),
       };
@@ -99,7 +99,7 @@ export default function Page() {
       <div className="flex gap-4">
         <Input
           required
-          placeholder="Vehicle Plate Number *"
+          placeholder="Vehicle Plate Number"
           value={plateNumber}
           onChange={(e) => setPlateNumber(e.target.value)}
         />
@@ -107,16 +107,16 @@ export default function Page() {
           type="number"
           min={1}
           max={20}
-          placeholder="Parking Slot Number (Optional)"
-          value={parkingSlot}
-          onChange={(e) => setParkingSlot(e.target.value)}
+          placeholder="Parking Spot (Optional)"
+          value={parkingSpot}
+          onChange={(e) => setParkingSpot(e.target.value)}
         />
         <Button disabled={!plateNumber} onClick={parkVehicle}>
           Park Vehcile
         </Button>
       </div>
       <VehiclesTable
-        parkingSlots={parkingSlots}
+        parkingSpots={parkingSpots}
         removeVehicle={removeVehicle}
         resetTimer={resetTimer}
       />
